@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SOCOTU AI — Centre de contrôle commercial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Design system SOCOTU — v3 Mobile + SVG Charts ===== */
+  :root {
+    --paper: #F7F5F1;
+    --paper-2: #EFEBE2;
+    --paper-3: #E8E2D6;
+    --navy-900: #0B2540;
+    --navy-800: #0F2F52;
+    --navy-700: #163A63;
+    --navy-600: #1F4A7A;
+    --navy-100: #E8EFF8;
+    --rust-600: #B85C2E;
+    --rust-100: #F5EAE3;
+    --ink: #1E2530;
+    --slate: #5B6472;
+    --slate-light: #8A929E;
+    --line: #DDD6C7;
+    --line-strong: #C8BFA8;
+    --success: #2F6F4E;
+    --success-bg: #EAF4EE;
+    --error: #B23A32;
+    --error-bg: #FAECEB;
+    --amber: #B8862E;
+    --amber-bg: #FBF3E3;
+    --white: #FFFFFF;
+
+    --shadow-xs: 0 1px 2px rgba(11,37,64,.06);
+    --shadow-sm: 0 1px 3px rgba(11,37,64,.08), 0 1px 2px rgba(11,37,64,.05);
+    --shadow-md: 0 4px 12px rgba(11,37,64,.10), 0 2px 4px rgba(11,37,64,.06);
+    --shadow-lg: 0 8px 30px rgba(11,37,64,.14), 0 4px 8px rgba(11,37,64,.06);
+    --shadow-modal: 0 20px 60px rgba(11,37,64,.22), 0 8px 20px rgba(11,37,64,.10);
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-pill: 999px;
+
+    --transition-fast: 120ms cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-base: 200ms cubic-bezier(0.25, 1, 0.5, 1);
+    --transition-slow: 320ms cubic-bezier(0.25, 1, 0.5, 1);
+
+    /* Touch target minimum */
+    --touch-min: 44px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ===================================================
+     HEADER / NAVIGATION — Mobile-first
+     =================================================== */
+  header.brand {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 245, 241, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-xs);
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+
+  .brand-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
+
+  header.brand .identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+  }
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--navy-900);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex: none;
+    box-shadow: var(--shadow-sm);
+  }
+
+  header.brand img {
+    height: 24px;
+    width: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .brand-text .name {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy-900);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-text .tag {
+    color: var(--slate);
+    font-size: 11.5px;
+    margin-top: 1px;
+  }
+
+  nav.pages {
+    display: flex;
+    gap: 2px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 3px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-shrink: 0;
+  }
+
+  nav.pages::-webkit-scrollbar { display: none; }
+
+  nav.pages a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--slate);
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color var(--transition-fast), background var(--transition-fast);
+    white-space: nowrap;
+    min-height: var(--touch-min);
+    display: flex;
+    align-items: center;
+  }
+
+  nav.pages a.active {
+    background: var(--white);
+    color: var(--navy-900);
+    box-shadow: var(--shadow-sm);
+    font-weight: 600;
+  }
+
+  nav.pages a:hover:not(.active) {
+    color: var(--ink);
+    background: rgba(255,255,255,.5);
+  }
+
+  /* ===================================================
+     DASH HEAD
+     =================================================== */
+  .dash-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 24px 0 20px;
+  }
+
+  .dash-head h1 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: clamp(22px, 4vw, 30px);
+    margin: 0 0 5px;
+    color: var(--navy-900);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .dash-head p.lede {
+    color: var(--slate);
+    margin: 0;
+    font-size: 14px;
+  }
+
+  /* ===================================================
+     AI STATUS WIDGET
+     =================================================== */
+  .ai-status {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    min-width: 200px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base);
+    flex-shrink: 0;
+  }
+
+  .ai-status .row1 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .ai-status .dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--success);
+    flex: none;
+    position: relative;
+  }
+
+  .ai-status .dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: var(--success);
+    opacity: 0;
+    animation: pulse-ring 2s ease-out infinite;
+  }
+
+  .ai-status.loading .dot { background: var(--amber); }
+  .ai-status.loading .dot::after { background: var(--amber); }
+  .ai-status.error .dot { background: var(--error); }
+  .ai-status.error .dot::after { display: none; }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+
+  .ai-status .sync { font-size: 11.5px; color: var(--slate-light); margin-top: 4px; }
+
+  /* ===================================================
+     ERROR BANNER
+     =================================================== */
+  .error-banner {
+    background: var(--error-bg);
+    border: 1px solid rgba(178,58,50,.25);
+    color: var(--error);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+    display: none;
+  }
+
+  /* ===================================================
+     STAT CARDS — Mobile-first grid
+     =================================================== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-xs);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--line);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+  .stat-card.accent-amber::before { background: var(--amber); }
+  .stat-card.accent-success::before { background: var(--success); }
+  .stat-card.accent-error::before { background: var(--error); }
+  .stat-card.accent-navy::before { background: var(--navy-600); }
+
+  .stat-card .stat-icon {
+    width: 30px; height: 30px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+    background: var(--paper-2);
+  }
+
+  .stat-card.accent-amber .stat-icon { background: var(--amber-bg); }
+  .stat-card.accent-success .stat-icon { background: var(--success-bg); }
+  .stat-card.accent-error .stat-icon { background: var(--error-bg); }
+  .stat-card.accent-navy .stat-icon { background: var(--navy-100); }
+
+  .stat-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  .stat-card .value {
+    font-family: 'Source Serif 4', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-card.accent-error .value { color: var(--error); }
+  .stat-card.accent-success .value { color: var(--success); }
+  .stat-card.accent-amber .value { color: var(--amber); }
+  .stat-card.accent-navy .value { color: var(--navy-600); }
+
+  /* ===================================================
+     URGENT BLOCK
+     =================================================== */
+  .urgent-block {
+    background: var(--white);
+    border: 1px solid rgba(178,58,50,.3);
+    border-left: 4px solid var(--error);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(178,58,50,.08);
+  }
+
+  .urgent-block .urgent-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .urgent-badge-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--error-bg);
+    border: 1px solid rgba(178,58,50,.2);
+    border-radius: var(--radius-pill);
+    padding: 4px 12px 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--error);
+  }
+
+  .urgent-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--error);
+    animation: urgent-pulse 1.4s ease-in-out infinite;
+    flex: none;
+  }
+
+  @keyframes urgent-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(.8); }
+  }
+
+  .urgent-block h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--error);
+    margin: 0;
+  }
+
+  .urgent-block .count-line { color: var(--slate); font-size: 13px; margin: 0 0 16px; }
+
+  .urgent-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* ===================================================
+     CARD (conteneur section)
+     =================================================== */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .card h2.section-title {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 3px;
+    color: var(--navy-900);
+    letter-spacing: -0.01em;
+  }
+
+  .card p.section-lede { color: var(--slate); margin: 0; font-size: 13px; }
+
+  /* ===================================================
+     TOOLBAR — Mobile-first
+     =================================================== */
+  .toolbar {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-wrap .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate-light);
+    pointer-events: none;
+  }
+
+  .search-wrap input { padding-left: 38px; }
+
+  input[type="text"], select, textarea {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    min-height: var(--touch-min);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="text"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--navy-600);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(31,74,122,.12);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235B6472' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  .filters-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .filters-scroll::-webkit-scrollbar { display: none; }
+
+  .filters-scroll select {
+    flex: none;
+    min-width: 150px;
+    width: auto;
+  }
+
+  .filter-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    white-space: nowrap;
+    align-self: center;
+    flex: none;
+  }
+
+  /* ===================================================
+     BUTTONS — Touch-friendly
+     =================================================== */
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    padding: 10px 18px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    min-height: var(--touch-min);
+    transition: background var(--transition-fast), border-color var(--transition-fast),
+                color var(--transition-fast), box-shadow var(--transition-fast),
+                transform var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  button:focus-visible { outline: 2px solid var(--navy-600); outline-offset: 2px; }
+  button:active:not(:disabled) { transform: translateY(1px); }
+
+  button.primary { background: var(--navy-900); color: var(--white); box-shadow: var(--shadow-xs); }
+  button.primary:hover { background: var(--navy-700); }
+  button.primary:disabled { background: var(--slate); cursor: not-allowed; opacity: .7; }
+
+  button.secondary { background: var(--white); border: 1px solid var(--line); color: var(--ink); }
+  button.secondary:hover { border-color: var(--slate); background: var(--paper); }
+
+  button.success-btn { background: var(--success); color: var(--white); box-shadow: var(--shadow-xs); }
+  button.success-btn:hover { background: #255c40; }
+  button.success-btn:disabled { background: var(--slate); cursor: not-allowed; opacity: .7; }
+
+  button.danger { background: transparent; border: 1px solid rgba(178,58,50,.4); color: var(--error); }
+  button.danger:hover { background: var(--error-bg); border-color: var(--error); }
+  button.danger:disabled { opacity: .5; cursor: not-allowed; }
+
+  button.ghost-btn { background: var(--white); border: 1px solid var(--line); color: var(--navy-600); }
+  button.ghost-btn:hover { border-color: var(--navy-600); background: var(--navy-100); }
+
+  /* ===================================================
+     BADGES
+     =================================================== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    letter-spacing: .01em;
+  }
+
+  .badge.cat-devis { background: var(--navy-100); color: var(--navy-600); }
+  .badge.cat-rendez_vous { background: var(--rust-100); color: var(--rust-600); }
+  .badge.cat-information { background: var(--success-bg); color: var(--success); }
+  .badge.cat-autre { background: var(--paper-3); color: var(--slate); }
+
+  .badge.urg-haute { background: var(--error-bg); color: var(--error); }
+  .badge.urg-moyenne { background: var(--amber-bg); color: var(--amber); }
+  .badge.urg-basse { background: var(--paper-3); color: var(--slate); }
+
+  .badge.stat-en_attente_validation { background: var(--amber-bg); color: var(--amber); }
+  .badge.stat-approuve { background: var(--success-bg); color: var(--success); }
+  .badge.stat-refuse_traitement_manuel { background: var(--error-bg); color: var(--error); }
+  .badge.stat-en_traitement { background: var(--navy-100); color: var(--navy-600); }
+  .badge.stat-traite { background: var(--paper-3); color: var(--slate); }
+
+  /* ===================================================
+     REQUEST LIST — Mobile-first
+     =================================================== */
+  .request-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .request-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base),
+                transform var(--transition-base), background var(--transition-base);
+  }
+
+  .request-card:hover {
+    background: var(--white);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .request-card.urgent-card { background: var(--white); border-color: rgba(178,58,50,.2); }
+  .request-card.urgent-card:hover { border-color: rgba(178,58,50,.4); }
+
+  .request-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .request-client .client-name {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--navy-900);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .request-client .client-email {
+    color: var(--slate-light);
+    font-size: 12px;
+    margin-top: 2px;
+    word-break: break-all;
+  }
+
+  .request-badges { display: flex; gap: 5px; flex-wrap: wrap; align-items: flex-start; flex-shrink: 0; }
+
+  .request-subject { font-weight: 600; color: var(--ink); font-size: 14px; word-break: break-word; }
+  .request-summary { color: var(--slate); font-size: 13px; line-height: 1.5; }
+
+  .request-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--slate-light);
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  .request-meta button { width: 100%; }
+
+  .ai-preview {
+    background: var(--navy-100);
+    border: 1px solid rgba(31,74,122,.12);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+
+  .ai-preview .ai-label {
+    font-size: 10.5px;
+    color: var(--navy-600);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ai-preview .ai-text {
+    font-size: 13px;
+    color: var(--navy-800);
+    max-height: 3em;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+
+  /* ===================================================
+     ÉTATS : CHARGEMENT / VIDE / ERREUR
+     =================================================== */
+  .state-block { text-align: center; padding: 48px 20px; color: var(--slate); }
+
+  .state-block .state-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--paper-2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px;
+  }
+
+  .state-block h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px;
+    color: var(--navy-900);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .state-block p { margin: 0; font-size: 13.5px; }
+
+  .skeleton-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .skeleton-row {
+    height: 88px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(90deg, var(--paper-2) 25%, #fff 37%, var(--paper-2) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: 0 0; }
+  }
+
+  /* ===================================================
+     GRAPHIQUES SVG AVANCÉS
+     =================================================== */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .chart-block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    position: relative;
+  }
+
+  .chart-block h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--slate);
+    margin: 0 0 20px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chart-block h3::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* Donut chart */
+  .donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .donut-svg-wrap {
+    flex: none;
+    position: relative;
+    width: 140px;
+    height: 140px;
+  }
+
+  .donut-center-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .donut-center-value {
+    font-family: 'Source Serif 4', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy-900);
+    line-height: 1;
+  }
+
+  .donut-center-label {
+    font-size: 10px;
+    color: var(--slate);
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .donut-legend {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: default;
+  }
+
+  .legend-swatch {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex: none;
+  }
+
+  .legend-info { flex: 1; min-width: 0; }
+
+  .legend-name {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .legend-stats {
+    font-size: 11.5px;
+    color: var(--slate-light);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* SVG Bar chart */
+  .svg-bar-chart {
+    width: 100%;
+    overflow: visible;
+  }
+
+  /* Tooltip SVG */
+  .chart-tooltip {
+    position: absolute;
+    background: var(--navy-900);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: var(--shadow-md);
+    transform: translateX(-50%);
+  }
+
+  .chart-tooltip.visible { opacity: 1; }
+
+  .chart-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--navy-900);
+  }
+
+  /* ===================================================
+     ACTIVITÉ RÉCENTE — Timeline
+     =================================================== */
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .activity-list::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+    border-radius: 2px;
+  }
+
+  .activity-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .activity-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--navy-600);
+    flex: none;
+    margin-top: 3px;
+    position: absolute;
+    left: -28px;
+    top: 13px;
+    z-index: 1;
+    box-shadow: 0 0 0 3px var(--white);
+  }
+
+  .activity-dot.dot-success { background: var(--success); }
+  .activity-dot.dot-error { background: var(--error); }
+  .activity-dot.dot-new { background: var(--amber); }
+
+  .activity-content { flex: 1; }
+
+  .activity-time {
+    font-size: 11px;
+    color: var(--rust-600);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 1px;
+  }
+
+  .activity-text { font-size: 13.5px; color: var(--ink); line-height: 1.4; }
+
+  /* ===================================================
+     MODAL DÉTAIL — Mobile-first
+     =================================================== */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11,37,64,.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+    z-index: 100;
+    overflow: hidden;
+    animation: overlay-in var(--transition-base) ease;
+  }
+
+  .overlay.hidden { display: none; }
+
+  @keyframes overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-detail {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: var(--shadow-modal);
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    animation: modal-slide-up 300ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  @keyframes modal-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .modal-detail .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    flex: none;
+  }
+
+  /* Drag handle for mobile */
+  .modal-detail .modal-head::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background: var(--line-strong);
+    border-radius: var(--radius-pill);
+  }
+
+  .modal-detail .modal-head { position: relative; }
+
+  .modal-detail .modal-head h2 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--navy-900);
+    margin: 0;
+  }
+
+  .modal-detail .close-x {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    font-size: 16px;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .modal-detail .close-x:hover { background: var(--paper-3); color: var(--ink); }
+
+  .modal-body {
+    padding: 16px 20px 24px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+  }
+
+  .detail-section {
+    margin-bottom: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+  }
+
+  .detail-section:last-child { margin-bottom: 0; }
+
+  .detail-section h3 {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--slate);
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-section h3::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+
+  .detail-field .field-label { font-size: 11px; color: var(--slate-light); margin-bottom: 2px; font-weight: 500; }
+  .detail-field .field-value { font-size: 13.5px; color: var(--ink); font-weight: 500; word-break: break-word; }
+
+  .detail-text-block {
+    border: 1px solid var(--line);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--ink);
+    white-space: pre-wrap;
+    max-height: 160px;
+    overflow-y: auto;
+    line-height: 1.6;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .response-textarea {
+    min-height: 160px;
+    resize: vertical;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .modal-actions .left-actions,
+  .modal-actions .right-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .modal-actions button { flex: 1; }
+
+  /* ===================================================
+     MODAL CONFIRMATION
+     =================================================== */
+  .modal-confirm {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: var(--shadow-modal);
+    animation: modal-slide-up 300ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .modal-confirm .confirm-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .modal-confirm.confirm-success .confirm-icon { background: var(--success-bg); }
+  .modal-confirm.confirm-danger .confirm-icon { background: var(--error-bg); }
+
+  .modal-confirm h2 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: var(--navy-900);
+  }
+
+  .modal-confirm p { color: var(--slate); margin: 0 0 4px; font-size: 14px; line-height: 1.6; }
+
+  .modal-confirm .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-confirm .actions button { flex: 1; }
+
+  /* ===================================================
+     TOAST
+     =================================================== */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--navy-900);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--radius-pill);
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    max-width: calc(100vw - 40px);
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--error); }
+
+  /* ===================================================
+     FOOTER
+     =================================================== */
+  footer.foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--slate-light);
+    font-size: 12px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  footer.foot .foot-logo { height: 20px; width: auto; opacity: .4; filter: grayscale(1); }
+  footer.foot .foot-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--line-strong); flex: none; }
+
+  /* ===================================================
+     UTILITAIRES
+     =================================================== */
+  .hidden { display: none !important; }
+
+  /* ===================================================
+     RESPONSIVE — Tablet & Desktop
+     =================================================== */
+  @media (min-width: 480px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .urgent-grid { grid-template-columns: repeat(2, 1fr); }
+    .request-meta { flex-direction: row; justify-content: space-between; align-items: center; }
+    .request-meta button { width: auto; }
+  }
+
+  @media (min-width: 640px) {
+    .page { padding: 0 24px 72px; }
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stat-card .value { font-size: 28px; }
+    .card { padding: 24px 26px; }
+    .modal-detail {
+      border-radius: var(--radius-xl);
+      max-width: 660px;
+      max-height: 90vh;
+      align-self: center;
+      animation: modal-slide-in 280ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .modal-confirm {
+      border-radius: var(--radius-xl);
+      max-width: 440px;
+      align-self: center;
+      animation: modal-slide-in 280ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .overlay { align-items: center; padding: 5vh 16px; overflow-y: auto; }
+    .modal-actions { flex-direction: row; justify-content: space-between; }
+    .modal-actions .left-actions,
+    .modal-actions .right-actions { width: auto; }
+    .modal-actions button { flex: none; }
+    .detail-grid { grid-template-columns: 1fr 1fr; }
+    .charts-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @keyframes modal-slide-in {
+    from { opacity: 0; transform: translateY(16px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (min-width: 768px) {
+    .stats { grid-template-columns: repeat(6, 1fr); }
+    .brand-inner { min-height: 64px; }
+    .dash-head { align-items: flex-end; }
+    .ai-status { width: auto; }
+  }
+
+  @media (min-width: 1024px) {
+    .urgent-grid { grid-template-columns: repeat(3, 1fr); }
+    .donut-wrap { flex-wrap: nowrap; }
+  }
+</style>
+
+<script>
+/* =========================================================
+   SOCOTU AI — GARDE D'AUTHENTIFICATION
+   Toute page interne est inaccessible sans session Supabase valide.
+   ========================================================= */
+(async function enforceAuth() {
+  const AUTH = {
+    SUPABASE_URL: "https://uwzdyrnlfknqctxvsxhq.supabase.co",
+    // Utiliser exactement la même clé anon/publishable que dans authentification.html
+    SUPABASE_ANON_KEY: "sb_publishable_9AembRmtZSFg4E4fExpP_A_7WH27kv0",
+    LOGIN_PAGE: "authentification.html"
+  };
+
+  function clearSession() {
+    ["socotu_access_token", "socotu_refresh_token", "socotu_user_email"]
+      .forEach(k => {
+        localStorage.removeItem(k);
+        sessionStorage.removeItem(k);
+      });
+  }
+
+  const token =
+    localStorage.getItem("socotu_access_token") ||
+    sessionStorage.getItem("socotu_access_token");
+
+  // Bloque immédiatement l'affichage avant toute tentative d'accès.
+  document.documentElement.style.visibility = "hidden";
+
+  if (!token || AUTH.SUPABASE_ANON_KEY.includes("REPLACE_WITH")) {
+    clearSession();
+    window.location.replace(AUTH.LOGIN_PAGE);
+    return;
+  }
+
+  try {
+    const response = await fetch(`${AUTH.SUPABASE_URL}/auth/v1/user`, {
+      method: "GET",
+      headers: {
+        "apikey": AUTH.SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${token}`
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      clearSession();
+      window.location.replace(AUTH.LOGIN_PAGE);
+      return;
+    }
+
+    // Session valide : afficher la page.
+    document.documentElement.style.visibility = "visible";
+  } catch (error) {
+    clearSession();
+    window.location.replace(AUTH.LOGIN_PAGE);
+  }
+})();
+</script>
+
+
+<style>
+  .socotu-logout {
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--slate);
+    font: inherit;
+    font-size: 12.5px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .socotu-logout:hover {
+    color: var(--error);
+    border-color: rgba(178,58,50,.35);
+    background: var(--error-bg);
+  }
+</style>
+
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="brand">
+    <div class="brand-inner">
+      <div class="identity">
+        <div class="logo-wrap">
+          <img src="https://www.socotu.com/images/socotu/logo-socotu.png" alt="SOCOTU">
+        </div>
+        <div class="brand-text">
+          <div class="name">SOCOTU AI</div>
+          <div class="tag">SOCOTU · Radès</div>
+        </div>
+      </div>
+      <nav class="pages">
+        <a href="index.html">Campagnes</a>
+        <a href="contacts.html">Contacts</a>
+        <a href="validation.html" class="active">Demandes</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- TITRE + STATUT IA -->
+  <div class="dash-head">
+    <div>
+      <h1>Centre de contrôle commercial</h1>
+      <p class="lede">Suivez et validez les demandes clients analysées par SOCOTU AI.</p>
+    </div>
+    <div class="ai-status loading" id="aiStatus">
+      <div class="row1"><span class="dot"></span><span id="aiStatusText">Synchronisation…</span></div>
+      <div class="sync">Dernière synchronisation : <span id="lastSync">—</span></div>
+    </div>
+  </div>
+
+  <div class="error-banner" id="errorBanner"></div>
+
+  <!-- STATISTIQUES -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="label">Demandes totales</div>
+      <div class="value" id="statTotal">—</div>
+    </div>
+    <div class="stat-card accent-amber">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8862E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="label">En attente</div>
+      <div class="value" id="statPending">—</div>
+    </div>
+    <div class="stat-card accent-success">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2F6F4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="label">Approuvées</div>
+      <div class="value" id="statApproved">—</div>
+    </div>
+    <div class="stat-card accent-error">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B23A32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <div class="label">Refusées</div>
+      <div class="value" id="statRejected">—</div>
+    </div>
+    <div class="stat-card accent-error">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B23A32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div class="label">Urgentes</div>
+      <div class="value" id="statUrgent">—</div>
+    </div>
+    <div class="stat-card accent-navy">
+      <div class="stat-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F4A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="label">Traitées aujourd'hui</div>
+      <div class="value" id="statToday">—</div>
+    </div>
+  </div>
+
+  <!-- PRIORITÉ COMMERCIALE -->
+  <div class="urgent-block hidden" id="urgentBlock">
+    <div class="urgent-head">
+      <div class="urgent-badge-pulse"><span class="urgent-dot"></span>Priorité commerciale</div>
+      <h2 id="urgentBlockTitle">Demandes urgentes</h2>
+    </div>
+    <p class="count-line" id="urgentCountLine"></p>
+    <div class="urgent-grid" id="urgentGrid"></div>
+  </div>
+
+  <!-- DEMANDES À VALIDER -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2 class="section-title">Demandes à valider</h2>
+        <p class="section-lede">Consultez, ajustez et validez les réponses proposées par SOCOTU AI.</p>
+      </div>
+      <button type="button" class="ghost-btn" id="refreshBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Actualiser
+      </button>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Rechercher un client, email ou sujet…">
+      </div>
+      <div class="filters-scroll">
+        <span class="filter-label">Filtrer :</span>
+        <select id="filterStatut">
+          <option value="tous">Statut : tous</option>
+          <option value="en_attente_validation">En attente</option>
+          <option value="approuve">Approuvé</option>
+          <option value="refuse_traitement_manuel">Refusé</option>
+          <option value="en_traitement">En traitement</option>
+          <option value="traite">Traité</option>
+        </select>
+        <select id="filterCategorie">
+          <option value="toutes">Catégorie : toutes</option>
+          <option value="devis">Devis</option>
+          <option value="rendez_vous">Rendez-vous</option>
+          <option value="information">Information</option>
+          <option value="autre">Autre</option>
+        </select>
+        <select id="filterUrgence">
+          <option value="toutes">Urgence : toutes</option>
+          <option value="haute">Haute</option>
+          <option value="moyenne">Moyenne</option>
+          <option value="basse">Basse</option>
+        </select>
+        <select id="filterDate">
+          <option value="toutes">Date : toutes</option>
+          <option value="aujourdhui">Aujourd'hui</option>
+          <option value="7j">7 derniers jours</option>
+          <option value="30j">30 derniers jours</option>
+        </select>
+        <select id="sortSelect">
+          <option value="recent">Trier : plus récent</option>
+          <option value="ancien">Trier : plus ancien</option>
+          <option value="urgence">Trier : urgence</option>
+          <option value="client">Trier : client A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="skeleton-list" id="loadingState">
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+      <div class="skeleton-row"></div>
+    </div>
+
+    <div class="state-block hidden" id="backendDownState">
+      <div class="state-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h2>Backend n8n indisponible</h2>
+      <p>Impossible de contacter le webhook de validation. Vérifiez la configuration n8n puis actualisez.</p>
+    </div>
+
+    <div class="state-block hidden" id="emptyState">
+      <div class="state-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F6F4E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Tout est à jour</h2>
+      <p>Aucune demande ne nécessite actuellement votre validation.</p>
+    </div>
+
+    <div class="request-list hidden" id="requestList"></div>
+  </div>
+
+  <!-- RÉPARTITION (graphiques SVG) -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2 class="section-title">Répartition des demandes</h2>
+        <p class="section-lede">Vue d'ensemble calculée à partir des demandes reçues.</p>
+      </div>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-block" id="categoryChartBlock">
+        <h3>Par catégorie</h3>
+        <div id="categoryChart" style="position:relative;"></div>
+      </div>
+      <div class="chart-block" id="urgencyChartBlock">
+        <h3>Par urgence</h3>
+        <div id="urgencyChart" style="position:relative;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITÉ RÉCENTE -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2 class="section-title">Activité récente</h2>
+        <p class="section-lede">Dernières demandes reçues ou traitées.</p>
+      </div>
+    </div>
+    <div class="activity-list" id="activityList"></div>
+  </div>
+
+  <footer class="foot">
+    <img src="https://www.socotu.com/images/socotu/logo-socotu.png" alt="SOCOTU" class="foot-logo">
+    <span class="foot-sep"></span>
+    <span>SOCOTU — Société Commerciale Tunisienne</span>
+    <span class="foot-sep"></span>
+    <span>Radès, Tunisie</span>
+  </footer>
+</div>
+
+<!-- MODAL DÉTAIL -->
+<div class="overlay hidden" id="detailOverlay">
+  <div class="modal-detail">
+    <div class="modal-head">
+      <h2>Détail de la demande</h2>
+      <button type="button" class="close-x" id="closeDetailBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-section">
+        <h3>Client</h3>
+        <div class="detail-grid">
+          <div class="detail-field"><div class="field-label">Nom</div><div class="field-value" id="detailClientNom">—</div></div>
+          <div class="detail-field"><div class="field-label">Email</div><div class="field-value" id="detailClientEmail">—</div></div>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h3>Demande</h3>
+        <div class="detail-grid">
+          <div class="detail-field"><div class="field-label">Sujet</div><div class="field-value" id="detailSujet">—</div></div>
+          <div class="detail-field"><div class="field-label">Catégorie</div><div class="field-value" id="detailCategorie">—</div></div>
+          <div class="detail-field"><div class="field-label">Urgence</div><div class="field-value" id="detailUrgence">—</div></div>
+          <div class="detail-field"><div class="field-label">Date de réception</div><div class="field-value" id="detailDate">—</div></div>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h3>Résumé</h3>
+        <div class="detail-text-block" id="detailResume">—</div>
+      </div>
+      <div class="detail-section" id="detailEmailSection">
+        <h3>Email original</h3>
+        <div class="detail-text-block" id="detailEmailOriginal">—</div>
+      </div>
+      <div class="detail-section">
+        <h3>Réponse proposée par SOCOTU AI</h3>
+        <textarea class="response-textarea" id="detailResponseArea"></textarea>
+        <div style="margin-top:10px;">
+          <button type="button" class="secondary" id="saveResponseBtn" style="width:100%;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Enregistrer la modification
+          </button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <div class="left-actions">
+          <button type="button" class="danger" id="rejectBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Refuser
+          </button>
+        </div>
+        <div class="right-actions">
+          <button type="button" class="secondary" id="closeDetailBtn2">Fermer</button>
+          <button type="button" class="success-btn" id="approveBtn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Approuver et traiter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMATION APPROBATION -->
+<div class="overlay hidden" id="confirmApproveOverlay">
+  <div class="modal-confirm confirm-success">
+    <div class="confirm-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F6F4E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Approuver cette demande ?</h2>
+    <p>Vous êtes sur le point d'approuver cette demande. La réponse sera transmise au traitement automatique.</p>
+    <div class="actions">
+      <button type="button" class="secondary" id="cancelApproveBtn">Annuler</button>
+      <button type="button" class="success-btn" id="confirmApproveBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Approuver
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMATION REFUS -->
+<div class="overlay hidden" id="confirmRejectOverlay">
+  <div class="modal-confirm confirm-danger">
+    <div class="confirm-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B23A32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <h2>Refuser cette demande ?</h2>
+    <p>Cette demande sera retirée du traitement automatique et marquée pour traitement manuel.</p>
+    <div class="actions">
+      <button type="button" class="secondary" id="cancelRejectBtn">Annuler</button>
+      <button type="button" class="danger" id="confirmRejectBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Refuser
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   CONFIG CENTRALISÉE
+   ========================================================= */
+const CONFIG = {
+  VALIDATION_GET_URL: "https://socotucommercialf.app.n8n.cloud/webhook/validation",
+  VALIDATION_APPROVE_URL: "https://socotucommercialf.app.n8n.cloud/webhook/validation-approve",
+  VALIDATION_REJECT_URL: "https://socotucommercialf.app.n8n.cloud/webhook/validation-reject"
+};
+
+const AUTO_REFRESH_MS = 30000;
+
+/* =========================================================
+   ÉTAT LOCAL
+   ========================================================= */
+let allRequests = [];
+let backendAvailable = null;
+let currentDetailId = null;
+let currentDetailResponse = "";
+let isSubmitting = false;
+let autoRefreshTimer = null;
+
+const el = (id) => document.getElementById(id);
+
+/* =========================================================
+   UTILITAIRES
+   ========================================================= */
+function escapeHtml(str){
+  return String(str ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function showToast(message, isError){
+  const toast = el("toast");
+  toast.textContent = message;
+  toast.className = "toast show" + (isError ? " error" : "");
+  setTimeout(() => { toast.className = "toast"; }, 2800);
+}
+
+function showError(message){
+  const banner = el("errorBanner");
+  banner.textContent = message;
+  banner.style.display = "block";
+}
+
+function clearError(){ el("errorBanner").style.display = "none"; }
+
+function formatDateTime(iso){
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return String(iso);
+  return d.toLocaleString("fr-FR", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" });
+}
+
+function formatTime(iso){
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "—";
+  return d.toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit" });
+}
+
+function isSameDay(iso, ref){
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return false;
+  return d.getFullYear() === ref.getFullYear() && d.getMonth() === ref.getMonth() && d.getDate() === ref.getDate();
+}
+
+function daysAgo(iso){
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return Infinity;
+  return (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
+}
+
+const CATEGORY_LABELS = { devis: "Devis", rendez_vous: "Rendez-vous", information: "Information", autre: "Autre" };
+const URGENCY_LABELS = { haute: "Haute", moyenne: "Moyenne", basse: "Basse" };
+const STATUT_LABELS = {
+  en_attente_validation: "En attente",
+  approuve: "Approuvé",
+  refuse_traitement_manuel: "Refusé",
+  en_traitement: "En traitement",
+  traite: "Traité"
+};
+
+function categoryBadge(cat){
+  const key = cat && CATEGORY_LABELS[cat] ? cat : "autre";
+  return `<span class="badge cat-${key}">${escapeHtml(CATEGORY_LABELS[key])}</span>`;
+}
+function urgencyBadge(urg){
+  const key = urg && URGENCY_LABELS[urg] ? urg : "basse";
+  return `<span class="badge urg-${key}">${escapeHtml(URGENCY_LABELS[key])}</span>`;
+}
+function statutBadge(statut){
+  const key = statut && STATUT_LABELS[statut] ? statut : "en_attente_validation";
+  return `<span class="badge stat-${key}">${escapeHtml(STATUT_LABELS[key])}</span>`;
+}
+
+/* =========================================================
+   NORMALISATION
+   ========================================================= */
+function normalizeResponse(data){
+  let list = [];
+  if (Array.isArray(data)) list = data;
+  else if (data && Array.isArray(data.data)) list = data.data;
+  else if (data && Array.isArray(data.emails)) list = data.emails;
+  else if (data && Array.isArray(data.contacts)) list = data.contacts;
+
+  return list.map(r => ({
+    id: r.id ?? r.ID ?? r._id ?? "",
+    message_id: r.message_id ?? "",
+    thread_id: r.thread_id ?? "",
+    client_nom: r.client_nom ?? r.nom ?? "",
+    client_email: r.client_email ?? r.email ?? "",
+    sujet: r.sujet ?? "",
+    resume: r.resume ?? "",
+    categorie: r.categorie ?? "autre",
+    urgence: r.urgence ?? "basse",
+    date_rdv: r.date_rdv ?? "",
+    reponse_suggeree: r.reponse_suggeree ?? "",
+    email_original: r.email_original ?? r.email_content ?? r.contenu_original ?? "",
+    statut: r.statut ?? "en_attente_validation",
+    recu_le: r.recu_le ?? r.created_at ?? r.date ?? ""
+  }));
+}
+
+/* =========================================================
+   CHARGEMENT
+   ========================================================= */
+async function loadRequests(showSkeleton){
+  clearError();
+  setAiStatus("loading");
+
+  if (showSkeleton){
+    el("loadingState").classList.remove("hidden");
+    el("backendDownState").classList.add("hidden");
+    el("emptyState").classList.add("hidden");
+    el("requestList").classList.add("hidden");
+  }
+
+  try {
+    const res = await fetch(CONFIG.VALIDATION_GET_URL);
+    if (!res.ok) throw new Error("Statut " + res.status);
+    const data = await res.json();
+    allRequests = normalizeResponse(data);
+    backendAvailable = true;
+    setAiStatus("ok");
+  } catch (err) {
+    backendAvailable = false;
+    allRequests = [];
+    setAiStatus("error");
+    showError("Impossible de charger les demandes.");
+  }
+
+  el("loadingState").classList.add("hidden");
+  updateStats(allRequests);
+  renderUrgentRequests(allRequests);
+  renderCharts(allRequests);
+  renderRecentActivity(allRequests);
+  filterRequests();
+}
+
+function setAiStatus(state){
+  const box = el("aiStatus");
+  box.classList.remove("loading", "error");
+  if (state === "loading"){
+    box.classList.add("loading");
+    el("aiStatusText").textContent = "Synchronisation…";
+  } else if (state === "error"){
+    box.classList.add("error");
+    el("aiStatusText").textContent = "Connexion n8n indisponible";
+  } else {
+    el("aiStatusText").textContent = "Système opérationnel";
+    el("lastSync").textContent = formatTime(new Date().toISOString());
+  }
+}
+
+/* =========================================================
+   STATISTIQUES
+   ========================================================= */
+function updateStats(requests){
+  if (backendAvailable === false){
+    ["statTotal","statPending","statApproved","statRejected","statUrgent","statToday"].forEach(id => el(id).textContent = "—");
+    return;
+  }
+  const total = requests.length;
+  const pending = requests.filter(r => r.statut === "en_attente_validation").length;
+  const approved = requests.filter(r => r.statut === "approuve").length;
+  const rejected = requests.filter(r => r.statut === "refuse_traitement_manuel").length;
+  const urgent = requests.filter(r => r.urgence === "haute" && r.statut === "en_attente_validation").length;
+  const today = new Date();
+  const treatedToday = requests.filter(r =>
+    (r.statut === "approuve" || r.statut === "refuse_traitement_manuel" || r.statut === "traite") && isSameDay(r.recu_le, today)
+  ).length;
+
+  el("statTotal").textContent = total;
+  el("statPending").textContent = pending;
+  el("statApproved").textContent = approved;
+  el("statRejected").textContent = rejected;
+  el("statUrgent").textContent = urgent;
+  el("statToday").textContent = treatedToday;
+}
+
+/* =========================================================
+   PRIORITÉ COMMERCIALE
+   ========================================================= */
+function renderUrgentRequests(requests){
+  const urgent = requests.filter(r => r.urgence === "haute" && r.statut === "en_attente_validation");
+  const block = el("urgentBlock");
+
+  if (urgent.length === 0){ block.classList.add("hidden"); el("urgentGrid").innerHTML = ""; return; }
+
+  block.classList.remove("hidden");
+  el("urgentCountLine").textContent = urgent.length === 1
+    ? "1 demande nécessite votre attention"
+    : `${urgent.length} demandes nécessitent votre attention`;
+
+  el("urgentGrid").innerHTML = urgent.map(r => `
+    <div class="request-card urgent-card">
+      <div class="request-top">
+        <div class="request-client">
+          <div class="client-name">${escapeHtml(r.client_nom || "Client inconnu")}</div>
+          <div class="client-email">${escapeHtml(r.client_email)}</div>
+        </div>
+        <div class="request-badges">${urgencyBadge(r.urgence)}${categoryBadge(r.categorie)}</div>
+      </div>
+      <div class="request-subject">${escapeHtml(r.sujet || "Sans sujet")}</div>
+      <div style="margin-top:4px;">
+        <button type="button" class="secondary open-detail-btn" data-id="${escapeHtml(r.id)}" style="width:100%;">Voir la demande</button>
+      </div>
+    </div>
+  `).join("");
+
+  el("urgentGrid").querySelectorAll(".open-detail-btn").forEach(btn => {
+    btn.addEventListener("click", () => openRequestDetails(btn.dataset.id));
+  });
+}
+
+/* =========================================================
+   FILTRES / RECHERCHE / TRI
+   ========================================================= */
+function filterRequests(){
+  if (backendAvailable === false){
+    el("backendDownState").classList.remove("hidden");
+    el("emptyState").classList.add("hidden");
+    el("requestList").classList.add("hidden");
+    return;
+  }
+  el("backendDownState").classList.add("hidden");
+
+  const query = el("searchInput").value.trim().toLowerCase();
+  const statutFilter = el("filterStatut").value;
+  const catFilter = el("filterCategorie").value;
+  const urgFilter = el("filterUrgence").value;
+  const dateFilter = el("filterDate").value;
+  const sortMode = el("sortSelect").value;
+
+  let result = allRequests.filter(r => {
+    const matchesQuery = !query ||
+      (r.client_nom || "").toLowerCase().includes(query) ||
+      (r.client_email || "").toLowerCase().includes(query) ||
+      (r.sujet || "").toLowerCase().includes(query) ||
+      (r.resume || "").toLowerCase().includes(query) ||
+      (r.categorie || "").toLowerCase().includes(query);
+
+    const matchesStatut = statutFilter === "tous" || r.statut === statutFilter;
+    const matchesCat = catFilter === "toutes" || r.categorie === catFilter;
+    const matchesUrg = urgFilter === "toutes" || r.urgence === urgFilter;
+
+    let matchesDate = true;
+    if (dateFilter === "aujourdhui") matchesDate = daysAgo(r.recu_le) <= 1;
+    else if (dateFilter === "7j") matchesDate = daysAgo(r.recu_le) <= 7;
+    else if (dateFilter === "30j") matchesDate = daysAgo(r.recu_le) <= 30;
+
+    return matchesQuery && matchesStatut && matchesCat && matchesUrg && matchesDate;
+  });
+
+  result = sortRequests(result, sortMode);
+  renderRequests(result);
+}
+
+function sortRequests(requests, mode){
+  const urgencyRank = { haute: 0, moyenne: 1, basse: 2 };
+  const copy = [...requests];
+  if (mode === "recent") copy.sort((a, b) => new Date(b.recu_le) - new Date(a.recu_le));
+  else if (mode === "ancien") copy.sort((a, b) => new Date(a.recu_le) - new Date(b.recu_le));
+  else if (mode === "urgence") copy.sort((a, b) => (urgencyRank[a.urgence] ?? 3) - (urgencyRank[b.urgence] ?? 3));
+  else if (mode === "client") copy.sort((a, b) => (a.client_nom || "").localeCompare(b.client_nom || ""));
+  return copy;
+}
+
+/* =========================================================
+   RENDU LISTE
+   ========================================================= */
+function renderRequests(requests){
+  if (requests.length === 0){
+    el("emptyState").classList.remove("hidden");
+    el("requestList").classList.add("hidden");
+    return;
+  }
+  el("emptyState").classList.add("hidden");
+  el("requestList").classList.remove("hidden");
+
+  el("requestList").innerHTML = requests.map(r => `
+    <div class="request-card">
+      <div class="request-top">
+        <div class="request-client">
+          <div class="client-name">${escapeHtml(r.client_nom || "Client inconnu")}</div>
+          <div class="client-email">${escapeHtml(r.client_email)}</div>
+        </div>
+        <div class="request-badges">
+          ${statutBadge(r.statut)}
+          ${urgencyBadge(r.urgence)}
+          ${categoryBadge(r.categorie)}
+        </div>
+      </div>
+      <div class="request-subject">${escapeHtml(r.sujet || "Sans sujet")}</div>
+      ${r.resume ? `<div class="request-summary">${escapeHtml(r.resume)}</div>` : ""}
+      ${r.reponse_suggeree ? `
+        <div class="ai-preview">
+          <div class="ai-label">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Réponse proposée
+          </div>
+          <div class="ai-text">${escapeHtml(r.reponse_suggeree)}</div>
+        </div>` : ""}
+      <div class="request-meta">
+        <span>Reçu le ${escapeHtml(formatDateTime(r.recu_le))}</span>
+        <button type="button" class="secondary open-detail-btn" data-id="${escapeHtml(r.id)}">Voir la demande →</button>
+      </div>
+    </div>
+  `).join("");
+
+  el("requestList").querySelectorAll(".open-detail-btn").forEach(btn => {
+    btn.addEventListener("click", () => openRequestDetails(btn.dataset.id));
+  });
+}
+
+/* =========================================================
+   GRAPHIQUES SVG AVANCÉS
+   ========================================================= */
+const CHART_COLORS = {
+  devis: "#1F4A7A",
+  rendez_vous: "#B85C2E",
+  information: "#2F6F4E",
+  autre: "#5B6472",
+  haute: "#B23A32",
+  moyenne: "#B8862E",
+  basse: "#5B6472"
+};
+
+function renderCharts(requests){
+  renderDistributionChart("categoryChart", requests, "categorie", CATEGORY_LABELS);
+  renderDistributionChart("urgencyChart", requests, "urgence", URGENCY_LABELS);
+}
+
+/* Fonction principale — dispatche vers donut ou bar selon le champ */
+function renderDistributionChart(containerId, requests, field, labels){
+  const container = el(containerId);
+  if (!container) return;
+
+  if (requests.length === 0){
+    container.innerHTML = `<p style="color:var(--slate);font-size:13px;margin:0;padding:20px 0;">Aucune donnée disponible.</p>`;
+    return;
+  }
+
+  const counts = {};
+  requests.forEach(r => {
+    const key = r[field] || "autre";
+    counts[key] = (counts[key] || 0) + 1;
+  });
+
+  const total = requests.length;
+  const keys = Object.keys(labels).filter(k => counts[k]);
+
+  if (field === "categorie"){
+    renderDonutChart(container, keys, counts, total, labels);
+  } else {
+    renderSVGBarChart(container, keys, counts, total, labels);
+  }
+}
+
+/* ---- DONUT CHART SVG animé ---- */
+function renderDonutChart(container, keys, counts, total, labels){
+  const size = 140;
+  const cx = size / 2;
+  const cy = size / 2;
+  const R = 52;   // rayon extérieur
+  const r = 32;   // rayon intérieur (trou)
+  const strokeW = R - r;
+  const circumference = 2 * Math.PI * (R - strokeW / 2);
+
+  // Calcul des arcs
+  let offset = 0;
+  const segments = keys.map(k => {
+    const pct = counts[k] / total;
+    const dash = pct * circumference;
+    const gap = circumference - dash;
+    const seg = { key: k, count: counts[k], pct, dash, gap, offset };
+    offset += dash;
+    return seg;
+  });
+
+  // SVG donut
+  const svgId = `donut_${container.id}`;
+  const tooltipId = `tt_${container.id}`;
+
+  const segmentsSVG = segments.map((seg, i) => {
+    const color = CHART_COLORS[seg.key] || "#5B6472";
+    const pctRounded = Math.round(seg.pct * 100);
+    // Rotation: start from top (-90deg = -circumference/4 offset)
+    const startOffset = circumference * 0.25 - seg.offset;
+    return `<circle
+      class="donut-seg"
+      cx="${cx}" cy="${cy}" r="${R - strokeW / 2}"
+      fill="none"
+      stroke="${color}"
+      stroke-width="${strokeW}"
+      stroke-dasharray="${seg.dash} ${seg.gap}"
+      stroke-dashoffset="${startOffset}"
+      stroke-linecap="butt"
+      style="transition: stroke-dasharray 0.8s cubic-bezier(0.25,1,0.5,1) ${i * 0.1}s, opacity 0.3s ease;"
+      data-label="${escapeHtml(labels[seg.key])}"
+      data-count="${seg.count}"
+      data-pct="${pctRounded}"
+      data-color="${color}"
+    />`;
+  }).join("");
+
+  const legendHTML = keys.map(k => {
+    const color = CHART_COLORS[k] || "#5B6472";
+    const pct = Math.round((counts[k] / total) * 100);
+    return `<div class="legend-item">
+      <div class="legend-swatch" style="background:${color};"></div>
+      <div class="legend-info">
+        <div class="legend-name">${escapeHtml(labels[k])}</div>
+        <div class="legend-stats">${counts[k]} demande${counts[k] > 1 ? 's' : ''} · ${pct}%</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="donut-wrap">
+      <div class="donut-svg-wrap">
+        <svg id="${svgId}" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="overflow:visible;">
+          <!-- Fond gris -->
+          <circle cx="${cx}" cy="${cy}" r="${R - strokeW / 2}" fill="none" stroke="#EFEBE2" stroke-width="${strokeW}"/>
+          ${segmentsSVG}
+        </svg>
+        <div class="donut-center-text">
+          <div class="donut-center-value">${total}</div>
+          <div class="donut-center-label">total</div>
+        </div>
+      </div>
+      <div class="donut-legend">${legendHTML}</div>
+    </div>
+    <div class="chart-tooltip" id="${tooltipId}"></div>
+  `;
+
+  // Tooltip au survol
+  const tooltip = document.getElementById(tooltipId);
+  const svgEl = document.getElementById(svgId);
+  if (svgEl && tooltip){
+    svgEl.querySelectorAll('.donut-seg').forEach(seg => {
+      seg.addEventListener('mouseenter', (e) => {
+        const label = seg.dataset.label;
+        const count = seg.dataset.count;
+        const pct = seg.dataset.pct;
+        tooltip.textContent = `${label} : ${count} (${pct}%)`;
+        tooltip.classList.add('visible');
+        seg.style.opacity = '0.8';
+      });
+      seg.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        tooltip.style.left = (e.clientX - rect.left) + 'px';
+        tooltip.style.top = (e.clientY - rect.top - 42) + 'px';
+      });
+      seg.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('visible');
+        seg.style.opacity = '1';
+      });
+    });
+  }
+
+  // Animation d'entrée : partir de 0 puis animer vers la vraie valeur
+  requestAnimationFrame(() => {
+    const segs = container.querySelectorAll('.donut-seg');
+    segs.forEach(s => {
+      const finalDash = parseFloat(s.getAttribute('stroke-dasharray').split(' ')[0]);
+      const finalGap = parseFloat(s.getAttribute('stroke-dasharray').split(' ')[1]);
+      s.setAttribute('stroke-dasharray', `0 ${circumference}`);
+      requestAnimationFrame(() => {
+        s.setAttribute('stroke-dasharray', `${finalDash} ${finalGap}`);
+      });
+    });
+  });
+}
+
+/* ---- SVG BAR CHART horizontal animé ---- */
+function renderSVGBarChart(container, keys, counts, total, labels){
+  const tooltipId = `tt_${container.id}`;
+  const barH = 22;
+  const barGap = 14;
+  const labelW = 72;
+  const statsW = 80;
+  const gridLines = 4;
+  const svgPaddingTop = 20;
+  const svgPaddingBottom = 10;
+  const svgHeight = keys.length * (barH + barGap) + svgPaddingTop + svgPaddingBottom;
+
+  // Grille de fond (lignes verticales légères)
+  const gridSVG = Array.from({length: gridLines + 1}, (_, i) => {
+    const x = labelW + (i / gridLines) * 100; // en %, on utilisera viewBox
+    return `<line x1="${x}%" y1="${svgPaddingTop}" x2="${x}%" y2="${svgHeight - svgPaddingBottom}" stroke="#DDD6C7" stroke-width="1" stroke-dasharray="3 3"/>`;
+  }).join("");
+
+  const barsSVG = keys.map((k, i) => {
+    const color = CHART_COLORS[k] || "#5B6472";
+    const pct = Math.round((counts[k] / total) * 100);
+    const y = svgPaddingTop + i * (barH + barGap);
+    const barAreaW = `calc(100% - ${labelW + statsW + 16}px)`;
+
+    return `
+      <g class="bar-group" data-label="${escapeHtml(labels[k])}" data-count="${counts[k]}" data-pct="${pct}" data-color="${color}" style="cursor:default;">
+        <!-- Label -->
+        <text x="${labelW - 8}" y="${y + barH / 2 + 5}" text-anchor="end" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="500" fill="#1E2530">${escapeHtml(labels[k])}</text>
+        <!-- Fond barre -->
+        <rect x="${labelW}" y="${y}" width="calc(100% - ${labelW + statsW + 8}px)" height="${barH}" rx="4" fill="#EFEBE2"/>
+        <!-- Barre colorée animée -->
+        <rect class="bar-animated" x="${labelW}" y="${y}" width="0" height="${barH}" rx="4" fill="${color}"
+          data-target-pct="${pct}"
+          style="transition: width 0.9s cubic-bezier(0.25,1,0.5,1) ${i * 0.12}s;"/>
+        <!-- Valeur % -->
+        <text class="bar-pct-text" x="calc(100% - ${statsW - 8}px)" y="${y + barH / 2 + 5}" font-family="IBM Plex Sans, sans-serif" font-size="12" font-weight="600" fill="#5B6472" font-variant-numeric="tabular-nums">${pct}%</text>
+        <!-- Badge count -->
+        <rect x="calc(100% - ${statsW - 38}px)" y="${y + 3}" width="32" height="${barH - 6}" rx="8" fill="#EFEBE2"/>
+        <text x="calc(100% - ${statsW - 54}px)" y="${y + barH / 2 + 4}" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="#8A929E" text-anchor="middle" font-variant-numeric="tabular-nums">${counts[k]}</text>
+      </g>`;
+  }).join("");
+
+  // Utiliser un div+SVG responsive avec foreignObject pour les barres CSS
+  // Approche plus robuste : HTML pur avec SVG pour les labels et les valeurs
+  const rowsHTML = keys.map((k, i) => {
+    const color = CHART_COLORS[k] || "#5B6472";
+    const pct = Math.round((counts[k] / total) * 100);
+    return `
+      <div class="svgbar-row" data-label="${escapeHtml(labels[k])}" data-count="${counts[k]}" data-pct="${pct}" data-color="${color}"
+           style="display:flex;align-items:center;gap:10px;margin-bottom:${i < keys.length - 1 ? '14px' : '0'};">
+        <div style="width:80px;flex:none;font-size:12.5px;font-weight:500;color:var(--ink);text-align:right;">${escapeHtml(labels[k])}</div>
+        <div style="flex:1;height:18px;background:var(--paper-2);border-radius:9px;overflow:hidden;position:relative;">
+          <div class="svgbar-fill" data-pct="${pct}" style="height:100%;width:0%;background:${color};border-radius:9px;transition:width 0.9s cubic-bezier(0.25,1,0.5,1) ${i * 0.12}s;"></div>
+        </div>
+        <div style="width:70px;flex:none;display:flex;align-items:center;gap:6px;justify-content:flex-end;">
+          <span style="font-size:12px;font-weight:600;color:var(--slate);font-variant-numeric:tabular-nums;">${pct}%</span>
+          <span style="font-size:11px;color:var(--slate-light);background:var(--paper-2);border-radius:999px;padding:1px 7px;font-variant-numeric:tabular-nums;">${counts[k]}</span>
+        </div>
+      </div>`;
+  }).join("");
+
+  container.innerHTML = `
+    <div style="padding:4px 0;">${rowsHTML}</div>
+    <div class="chart-tooltip" id="${tooltipId}"></div>
+  `;
+
+  // Tooltip
+  const tooltip = document.getElementById(tooltipId);
+  container.querySelectorAll('.svgbar-row').forEach(row => {
+    row.addEventListener('mouseenter', (e) => {
+      tooltip.textContent = `${row.dataset.label} : ${row.dataset.count} (${row.dataset.pct}%)`;
+      tooltip.classList.add('visible');
+    });
+    row.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (e.clientX - rect.left) + 'px';
+      tooltip.style.top = (e.clientY - rect.top - 42) + 'px';
+    });
+    row.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+  });
+
+  // Animation des barres
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      container.querySelectorAll('.svgbar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    });
+  });
+}
+
+/* =========================================================
+   ACTIVITÉ RÉCENTE
+   ========================================================= */
+function renderRecentActivity(requests){
+  const container = el("activityList");
+  if (requests.length === 0){
+    container.innerHTML = `<p style="color:var(--slate);font-size:13.5px;margin:0;">Aucune activité récente.</p>`;
+    return;
+  }
+
+  const sorted = [...requests].sort((a, b) => new Date(b.recu_le) - new Date(a.recu_le)).slice(0, 8);
+
+  container.innerHTML = sorted.map(r => {
+    let text, dotClass;
+    if (r.statut === "approuve"){ text = `Demande de <strong>${escapeHtml(r.client_nom || "client")}</strong> approuvée`; dotClass = "dot-success"; }
+    else if (r.statut === "refuse_traitement_manuel"){ text = `Demande de <strong>${escapeHtml(r.client_nom || "client")}</strong> refusée`; dotClass = "dot-error"; }
+    else if (r.statut === "traite"){ text = `Demande de <strong>${escapeHtml(r.client_nom || "client")}</strong> traitée`; dotClass = "dot-success"; }
+    else { text = `Nouvelle demande de <strong>${escapeHtml(r.client_nom || "client")}</strong>`; dotClass = "dot-new"; }
+
+    return `
+      <div class="activity-item">
+        <div class="activity-dot ${dotClass}"></div>
+        <div class="activity-content">
+          <div class="activity-time">${escapeHtml(formatTime(r.recu_le))}</div>
+          <div class="activity-text">${text}</div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+/* =========================================================
+   VUE DÉTAIL
+   ========================================================= */
+function openRequestDetails(id){
+  const req = allRequests.find(r => String(r.id) === String(id));
+  if (!req) return;
+
+  currentDetailId = req.id;
+  currentDetailResponse = req.reponse_suggeree || "";
+
+  el("detailClientNom").textContent = req.client_nom || "—";
+  el("detailClientEmail").textContent = req.client_email || "—";
+  el("detailSujet").textContent = req.sujet || "—";
+  el("detailCategorie").innerHTML = categoryBadge(req.categorie);
+  el("detailUrgence").innerHTML = urgencyBadge(req.urgence);
+  el("detailDate").textContent = formatDateTime(req.recu_le);
+  el("detailResume").textContent = req.resume || "—";
+
+  if (req.email_original){
+    el("detailEmailSection").classList.remove("hidden");
+    el("detailEmailOriginal").textContent = req.email_original;
+  } else {
+    el("detailEmailSection").classList.add("hidden");
+  }
+
+  el("detailResponseArea").value = currentDetailResponse;
+  el("detailOverlay").classList.remove("hidden");
+}
+
+function closeRequestDetails(){
+  el("detailOverlay").classList.add("hidden");
+  currentDetailId = null;
+  currentDetailResponse = "";
+}
+
+el("closeDetailBtn").addEventListener("click", closeRequestDetails);
+el("closeDetailBtn2").addEventListener("click", closeRequestDetails);
+
+function saveEditedResponse(){
+  currentDetailResponse = el("detailResponseArea").value;
+  showToast("Modification enregistrée localement.");
+}
+el("saveResponseBtn").addEventListener("click", saveEditedResponse);
+
+/* =========================================================
+   APPROBATION
+   ========================================================= */
+el("approveBtn").addEventListener("click", () => {
+  if (!currentDetailId) return;
+  el("confirmApproveOverlay").classList.remove("hidden");
+});
+el("cancelApproveBtn").addEventListener("click", () => {
+  el("confirmApproveOverlay").classList.add("hidden");
+});
+el("confirmApproveBtn").addEventListener("click", approveRequest);
+
+async function approveRequest(){
+  if (isSubmitting || !currentDetailId) return;
+  isSubmitting = true;
+
+  const btn = el("confirmApproveBtn");
+  btn.disabled = true;
+  btn.textContent = "Approbation…";
+
+  const responseText = el("detailResponseArea").value;
+
+  try {
+    await callWebhook(CONFIG.VALIDATION_APPROVE_URL, { id: currentDetailId, reponse: responseText });
+    el("confirmApproveOverlay").classList.add("hidden");
+    closeRequestDetails();
+    showToast("Demande approuvée avec succès.");
+    await loadRequests(false);
+  } catch (err) {
+    showToast("Impossible d'approuver cette demande.", true);
+  } finally {
+    isSubmitting = false;
+    btn.disabled = false;
+    btn.textContent = "Approuver";
+  }
+}
+
+/* =========================================================
+   REFUS
+   ========================================================= */
+el("rejectBtn").addEventListener("click", () => {
+  if (!currentDetailId) return;
+  el("confirmRejectOverlay").classList.remove("hidden");
+});
+el("cancelRejectBtn").addEventListener("click", () => {
+  el("confirmRejectOverlay").classList.add("hidden");
+});
+el("confirmRejectBtn").addEventListener("click", rejectRequest);
+
+async function rejectRequest(){
+  if (isSubmitting || !currentDetailId) return;
+  isSubmitting = true;
+
+  const btn = el("confirmRejectBtn");
+  btn.disabled = true;
+  btn.textContent = "Refus…";
+
+  try {
+    await callWebhook(CONFIG.VALIDATION_REJECT_URL, { id: currentDetailId });
+    el("confirmRejectOverlay").classList.add("hidden");
+    closeRequestDetails();
+    showToast("Demande refusée et transférée au traitement manuel.");
+    await loadRequests(false);
+  } catch (err) {
+    showToast("Impossible de refuser cette demande.", true);
+  } finally {
+    isSubmitting = false;
+    btn.disabled = false;
+    btn.textContent = "Refuser";
+  }
+}
+
+/* =========================================================
+   APPEL WEBHOOKS N8N
+   ========================================================= */
+async function callWebhook(url, payload){
+  let res;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  } catch (networkErr) {
+    throw new Error("Erreur réseau.");
+  }
+  if (!res.ok) throw new Error("Statut " + res.status);
+  try {
+    const data = await res.json();
+    if (data && data.success === false) throw new Error(data.message || "Échec de l'opération.");
+    return data;
+  } catch (parseErr) {
+    return null;
+  }
+}
+
+/* =========================================================
+   ACTUALISATION
+   ========================================================= */
+el("refreshBtn").addEventListener("click", () => loadRequests(true));
+
+function isAnyModalOpen(){
+  return !el("detailOverlay").classList.contains("hidden") ||
+         !el("confirmApproveOverlay").classList.contains("hidden") ||
+         !el("confirmRejectOverlay").classList.contains("hidden");
+}
+
+function scheduleAutoRefresh(){
+  if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(() => {
+    if (isAnyModalOpen()) return;
+    loadRequests(false);
+  }, AUTO_REFRESH_MS);
+}
+
+/* =========================================================
+   ÉCOUTEURS
+   ========================================================= */
+el("searchInput").addEventListener("input", filterRequests);
+el("filterStatut").addEventListener("change", filterRequests);
+el("filterCategorie").addEventListener("change", filterRequests);
+el("filterUrgence").addEventListener("change", filterRequests);
+el("filterDate").addEventListener("change", filterRequests);
+el("sortSelect").addEventListener("change", filterRequests);
+
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+loadRequests(true);
+scheduleAutoRefresh();
+</script>
+
+
+<script>
+(function setupLogout() {
+  function logout() {
+    ["socotu_access_token", "socotu_refresh_token", "socotu_user_email"]
+      .forEach(k => {
+        localStorage.removeItem(k);
+        sessionStorage.removeItem(k);
+      });
+    window.location.replace("authentification.html");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.querySelector("nav.pages");
+    if (!nav || document.getElementById("socotuLogoutBtn")) return;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = "socotuLogoutBtn";
+    btn.className = "socotu-logout";
+    btn.textContent = "Déconnexion";
+    btn.addEventListener("click", logout);
+    nav.parentElement.appendChild(btn);
+  });
+})();
+</script>
+
+</body>
+</html>
